@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+import {storage} from "../config/firebase";
 
 interface Product{
     _id:string,
@@ -15,11 +16,29 @@ interface Product{
 const Product:React.FC=()=> {
 
         const [products, setProducts] = useState<Product[]>([])
-
+    	const[image, setImage] = useState<File | null>(null);
         const[name, setName] = useState('');
         const[description, setDescription] = useState('');
         const[unitPrice, setUnitPrice] = useState<number | ''>('');
         const[qtyOnHand, setQtyOnHand] = useState<number | ''>('');
+
+
+        const handleImageChange = (e:ChangeEvent<HTMLInputElement>)=>{
+            if(e.target.files && e.target.files[0]){
+                setImage(e.target.files[0]);
+            }
+        }
+
+        const saveProduct = ()=>{
+            if(image){
+                const storageRef = storage.ref(`image/${Math.random()+'-'+image.name}`);
+                storageRef.put(image).then(()=>{
+                    storageRef.getDownloadURL().then((url)=>{
+
+                    })
+                })
+            }
+        }
 
 
 
@@ -53,7 +72,7 @@ const Product:React.FC=()=> {
                     <div className="col-12 col-sm-6 col-md-4" style={StyleOrder}> 
                 <div className="form-group">
                             <label htmlFor="image">image</label>
-                            <input type="file" className="form-control" id="image" />
+                            <input type="file" onChange={handleImageChange} className="form-control" id="image" />
                         </div>
                     </div>
 
@@ -67,7 +86,7 @@ const Product:React.FC=()=> {
                 <br />
             <div className="row">
             <div className="col-12">
-                <button className="btn btn-primary col-12">Save Product</button>
+                <button className="btn btn-primary col-12" onClick={saveProduct}>Save Product</button>
             </div>
             </div>
             <hr />
