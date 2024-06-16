@@ -1,4 +1,28 @@
-function Product() {
+import React, { useState } from "react";
+
+interface Product{
+    _id:string,
+    name:string,
+    description:string,
+    image:string,
+    unitPrice:number,
+    qtyOnHand:number
+
+}
+
+
+
+const Product:React.FC=()=> {
+
+        const [products, setProducts] = useState<Product[]>([])
+
+        const[name, setName] = useState('');
+        const[description, setDescription] = useState('');
+        const[unitPrice, setUnitPrice] = useState<number | ''>('');
+        const[qtyOnHand, setQtyOnHand] = useState<number | ''>('');
+
+
+
     const StyleOrder:React.CSSProperties = {
         
         marginBottom: '20px'
@@ -11,19 +35,19 @@ function Product() {
                 <div className="col-12 col-sm-6 col-md-4" style={StyleOrder}>
                     <div className="form-group">
                         <label htmlFor="productName">Product Name</label>
-                        <input type="text" className="form-control" id="productName" />
+                        <input type="text" onChange={(e)=>setName(e.target.name)} className="form-control" id="productName" />
                     </div>
                 </div>
                 <div className="col-12 col-sm-6 col-md-4">
                     <div className="form-group">
                             <label htmlFor="unitPrice">Unit Price</label>
-                            <input type="number" className="form-control" id="unitPrice" />
+                            <input type="number" onChange={(e)=>setUnitPrice(parseFloat(e.target.name))} className="form-control" id="unitPrice" />
                         </div>
                     </div>
                 <div className="col-12 col-sm-6 col-md-4">
                 <div className="form-group">
                             <label htmlFor="qtyOnHand">Qty On Hand</label>
-                            <input type="number" className="form-control" id="qtyOnHand" />
+                            <input type="number" onChange={(e)=>setQtyOnHand(parseFloat(e.target.name))} className="form-control" id="qtyOnHand" />
                         </div>
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={StyleOrder}> 
@@ -36,7 +60,7 @@ function Product() {
                     <div className="col-12">
                 <div className="form-group">
                             <label htmlFor="customerName">Description</label>
-                            <textarea role="" className="form-control" id="customerSalary" />
+                            <textarea rows={5} onChange={(e)=>setDescription(e.target.name)} className="form-control" id="customerSalary" />
                         </div>
                     </div>
             </div>
