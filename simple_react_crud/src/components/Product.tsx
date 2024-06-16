@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {storage} from "../config/firebase";
 
 interface Product{
@@ -29,16 +29,21 @@ const Product:React.FC=()=> {
             }
         }
 
-        const saveProduct = ()=>{
-            if(image){
-                const storageRef = storage.ref(`image/${Math.random()+'-'+image.name}`);
-                storageRef.put(image).then(()=>{
-                    storageRef.getDownloadURL().then((url)=>{
 
-                    })
-                })
-            }
-        }
+        useEffect(()=>{
+            findAllCustomer();
+        })
+
+        // const saveProduct = ()=>{
+        //     if(image){
+        //         const storageRef = storage.ref(`image/${Math.random()+'-'+image.name}`);
+        //         storageRef.put(image).then(()=>{
+        //             storageRef.getDownloadURL().then((url)=>{
+
+        //             })
+        //         })
+        //     }
+        // }
 
 
 

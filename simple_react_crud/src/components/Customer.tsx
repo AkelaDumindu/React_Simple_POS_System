@@ -1,4 +1,44 @@
-function Customer() {
+import axios from "axios";
+import React, { useState } from "react";
+
+interface Customer {
+
+    id:string,
+    name:string,
+    address:string,
+    salary:number
+}
+
+const Customer:React.FC= ()=> {
+
+
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [salary, setSalary] = useState<number | ''>('');
+
+
+    const saveCustomer = async ()=>{
+        
+        try {
+            const response = await axios.post('http://localhost:3000/api/v1/customers/save-customer', {
+                name, address, salary
+            });
+    
+            console.log(response);
+            setName('');
+            setAddress('');
+            setSalary('');
+            
+        } catch (error) {
+            console.log(error);
+            
+            
+        }
+
+        
+        
+        
+    }
 
     return (
         <div className="container">
@@ -6,26 +46,26 @@ function Customer() {
                 <div className="col-12 col-sm-6 col-md-4">
                     <div className="form-group">
                         <label htmlFor="customerName">Customer name</label>
-                        <input type="text" className="form-control" id="customerName" />
+                        <input value={name} onChange={(e)=>{setName(e.target.value)}} type="text" className="form-control" id="customerName" />
                     </div>
                 </div>
                 <div className="col-12 col-sm-6 col-md-4">
                     <div className="form-group">
                             <label htmlFor="customerAddress">Customer Address</label>
-                            <input type="text" className="form-control" id="customerAddress" />
+                            <input value={address} onChange={(e)=>{setAddress(e.target.value)}} type="text" className="form-control" id="customerAddress" />
                         </div>
                     </div>
                 <div className="col-12 col-sm-6 col-md-4">
                 <div className="form-group">
                             <label htmlFor="customerName">Customer Salary</label>
-                            <input type="number" className="form-control" id="customerSalary" />
+                            <input value={salary} onChange={(e)=>{setSalary(e.target.value==''?'':parseFloat(e.target.value))}} type="number" className="form-control" id="customerSalary" />
                         </div>
                     </div>
             </div>
                 <br />
             <div className="row">
             <div className="col-12">
-                <button className="btn btn-primary col-12">Save Customer</button>
+                <button onClick={saveCustomer} className="btn btn-primary col-12">Save Customer</button>
             </div>
             </div>
 
