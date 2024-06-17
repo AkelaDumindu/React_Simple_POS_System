@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Customer {
 
-    id:string,
+    _id:string,
     name:string,
     address:string,
     salary:number
@@ -12,9 +12,32 @@ interface Customer {
 const Customer:React.FC= ()=> {
 
 
+    const [customers, setCustomers] = useState<Customer[]>([]);
+
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const [salary, setSalary] = useState<number | ''>('');
+
+
+
+    useEffect(()=>{
+        findAllCustomers();
+    }, []);
+
+
+
+    const findAllCustomers = async ()=>{
+        const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer');
+        // const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer?searchText=&page=1&size=10');
+        setCustomers(response.data.data);
+        console.log(customers);
+        
+    }
+
+    const deleteCustomer = async (id: string)=>{
+        const response = await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+        
+    }
 
 
     const saveCustomer = async ()=>{
@@ -96,30 +119,28 @@ const Customer:React.FC= ()=> {
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>#1001</td>
-                                <td>Akela</td>
-                                <td>Galle</td>
-                                <td>500000</td>
-                                <td>
-                                    <button className="btn btn-outline-danger btn-sm">Delete</button>
-                                </td>
-                                <td>
-                                    <button className="btn btn-outline-success btn-sm">Update</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#1001</td>
-                                <td>Akela</td>
-                                <td>Galle</td>
-                                <td>500000</td>
-                                <td>
-                                    <button className="btn btn-outline-danger btn-sm">Delete</button>
-                                </td>
-                                <td>
-                                    <button className="btn btn-outline-success btn-sm">Update</button>
-                                </td>
-                            </tr>
+
+                            {customers.map((customer, index)=>
+                            <tr key={index}>
+                            <td>#{index}</td>
+                            <td> {customer.name} </td>
+                            <td> {customer.address} </td>
+                            <td> {customer.salary} </td>
+                            <td>
+                                <button 
+                                onClick={()=>{
+                                    if(confirm('Are you sure')){
+                                        deleteCustomer(customer._id)
+                                    }
+                                }}
+                                className="btn btn-outline-danger btn-sm">Delete</button>
+                            </td>
+                            <td>
+                                <button className="btn btn-outline-success btn-sm">Update</button>
+                            </td>
+                        </tr>
+                            )}
+                            
                         </tbody>
                     </table>
                 </div>
