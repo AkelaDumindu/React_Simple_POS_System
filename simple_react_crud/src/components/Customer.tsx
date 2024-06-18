@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {Modal} from "react-bootstrap"; 
 
 interface Customer {
 
@@ -13,6 +14,7 @@ const Customer:React.FC= ()=> {
 
 
     const [customers, setCustomers] = useState<Customer[]>([]);
+    const [modalState, setModalState] = useState<boolean>(false);
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -36,6 +38,13 @@ const Customer:React.FC= ()=> {
 
     const deleteCustomer = async (id: string)=>{
         const response = await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+        
+    }
+
+    const loadModal = async(id:string)=>{
+        const customer = await axios.get('http://localhost:3000/api/v1/customers/find-customer/'+id);
+        console.log(customer.data.data);
+        setModalState(true);
         
     }
 
@@ -64,6 +73,7 @@ const Customer:React.FC= ()=> {
     }
 
     return (
+        <>
         <div className="container">
             <div className="row">
                 <div className="col-12 col-sm-6 col-md-4">
@@ -136,7 +146,11 @@ const Customer:React.FC= ()=> {
                                 className="btn btn-outline-danger btn-sm">Delete</button>
                             </td>
                             <td>
-                                <button className="btn btn-outline-success btn-sm">Update</button>
+                                <button 
+                                onClick={()=>{
+                                    loadModal(customer._id);
+                                }}
+                                className="btn btn-outline-success btn-sm">Update</button>
                             </td>
                         </tr>
                             )}
@@ -146,6 +160,55 @@ const Customer:React.FC= ()=> {
                 </div>
             </div>
         </div>
+
+
+            
+            
+
+{/************************************************* */}
+
+    <Modal show={modalState}>
+        div
+                <div className="p-4">
+                    <h2>Update Customer</h2>
+                    <hr />
+
+
+                
+
+                <div className="col-12">
+                    <div className="form-group">
+                        <input type="text" className="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div className="col-12">
+                    <div className="form-group">
+                        <input type="text" className="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div className="col-12">
+                    <div className="form-group">
+                        <input type="text" className="form-control" />
+                    </div>
+                </div>
+                <br />
+                <div className="col-12">
+                    <div className="form-group">
+                        <input type="text" className="form-control" />
+                    </div>
+                </div>
+                <br />
+
+                <div className="col-12">
+                    <button type="button" className="btn btn-success">Update Customer</button>
+                </div>
+                </div>
+
+    </Modal>       
+{/************************************************* */}        
+            </>
     )
     
 }
