@@ -20,6 +20,11 @@ const Customer:React.FC= ()=> {
     const [address, setAddress] = useState('');
     const [salary, setSalary] = useState<number | ''>('');
 
+    const [selectedId, setSelectedId] = useState('');
+    const [updateName, setUpdateName] = useState('');
+    const [updateAddress, setUpdateAddress] = useState('');
+    const [updateSalary, setUpdateSalary] = useState<number | ''>('');
+
 
 
     useEffect(()=>{
@@ -27,23 +32,51 @@ const Customer:React.FC= ()=> {
     }, []);
 
 
+    const updateCustomer = async ()=>{
+        
+        
+        try {
+            const response = await axios.put('http://localhost:3000/api/v1/customers/update-customer/'+selectedId, {
+                name:updateName, address:updateAddress, salary:updateSalary
+            });
+    
+            
+           
+            setModalState(false);
+            findAllCustomers();
+            
+        } catch (error) {
+            console.log(error);
+            
+            
+        }
+
+    }
+    
+
+
 
     const findAllCustomers = async ()=>{
         const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer');
         // const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer?searchText=&page=1&size=10');
         setCustomers(response.data.data);
-        console.log(customers);
+        
         
     }
 
     const deleteCustomer = async (id: string)=>{
         const response = await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+
+        findAllCustomers();
         
     }
 
     const loadModal = async(id:string)=>{
         const customer = await axios.get('http://localhost:3000/api/v1/customers/find-customer/'+id);
-        console.log(customer.data.data);
+        setSelectedId(customer.data.data._id);
+        setUpdateName(customer.data.data.name);
+        setUpdateAddress(customer.data.data.address);
+        setUpdateSalary(parseFloat(customer.data.data.salary));
         setModalState(true);
         
     }
@@ -178,32 +211,39 @@ const Customer:React.FC= ()=> {
 
                 <div className="col-12">
                     <div className="form-group">
-                        <input type="text" className="form-control" />
+                        <input
+                        onChange={(e)=>{setUpdateName(e.target.value)}}
+                         type="text" 
+                         defaultValue={updateName} className="form-control" />
                     </div>
                 </div>
                 <br />
                 <div className="col-12">
                     <div className="form-group">
-                        <input type="text" className="form-control" />
+                        <input 
+                        onChange={(e)=>{setUpdateAddress(e.target.value)}}
+                        type="text" defaultValue={updateAddress} className="form-control" />
                     </div>
                 </div>
                 <br />
                 <div className="col-12">
                     <div className="form-group">
-                        <input type="text" className="form-control" />
+                        <input 
+                        onChange={(e)=>{setUpdateSalary(e.target.value==''?'':parseFloat(e.target.value))}}
+                        type="text" 
+                        defaultValue={updateSalary} className="form-control" />
                     </div>
                 </div>
                 <br />
-                <div className="col-12">
-                    <div className="form-group">
-                        <input type="text" className="form-control" />
-                    </div>
-                </div>
-                <br />
+                
 
                 <div className="col-12">
-                    <button type="button" className="btn btn-success">Update Customer</button>
+                    <button onClick={updateCustomer} type="button" className="btn btn-success col-12">Update Customer</button>
+                    <br />
+                    <br />
+                    <button type="button" className="btn btn-secondary col-12" onClick={()=>setModalState(false)}>Close Modal</button>
                 </div>
+                
                 </div>
 
     </Modal>       
