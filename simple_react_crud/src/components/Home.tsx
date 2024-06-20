@@ -12,6 +12,7 @@ const Home: React.FC = () => {
     const [productCount, setProductCount] = useState<number>();
     const [customerCount, setCustomerCount] = useState<number>();
     const [orderCount, setOrderCount] = useState<number>();
+    const [income, setIncome] = useState<number>();
 
     useEffect(() => {
         findAllProducts();
@@ -38,6 +39,9 @@ const Home: React.FC = () => {
 
         const responseOrder = await axios.get('http://localhost:3000/api/v1/orders/find-all-count');
         setOrderCount(responseOrder.data);
+
+        const responseIncome = await axios.get('http://localhost:3000/api/v1/orders/find-all-income');
+        setIncome(responseIncome.data.totalCostSum);
    
 }
     const maxWidthStyle: React.CSSProperties = {
@@ -80,7 +84,7 @@ const Home: React.FC = () => {
                             thumbnail={'https://img.freepik.com/free-vector/global-stock-market-concept-illustration_114360-19030.jpg?t=st=1717664051~exp=1717667651~hmac=1570df5f6c67db7dc699e7a9a466fa956d4d67f96a8138904d58f646ff4c384e&w=740'} 
                             title={'Income'} 
                             description={'This is a wider card with.'} 
-                            value={250}
+                            value={income}
                             key={4}
                         />
                     </div>
