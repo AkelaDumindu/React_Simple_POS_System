@@ -42,9 +42,9 @@ const Product:React.FC=()=> {
         }
 
 
-        useEffect(()=>{
-            findAllProducts();
-        });
+            useEffect(()=>{
+                findAllProducts();
+            });
 
       
 
