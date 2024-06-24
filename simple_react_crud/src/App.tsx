@@ -4,6 +4,8 @@ import Home from "./components/Home";
 import Customer from "./components/Customer";
 import Order from "./components/Order";
 import Product from "./components/Product";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
  
@@ -33,6 +35,9 @@ function App() {
         <li className="nav-item">
           <Link className="nav-link" aria-disabled="true" to={"/Product"}>Products</Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" aria-disabled="true" to={"/Login"}>Login</Link>
+        </li>
       </ul>
     </div>
   </div>
@@ -45,6 +50,8 @@ function App() {
             <Route path="/Customer" element={<Customer/>} />
             <Route path="/Order" element={<Order/>} />
             <Route path="/Product" element={<Product/>} />
+            <Route path="/Login" element={<Login/>} />
+            <Route path="/Signup" element={<Signup/>} />
           </Routes>
         </div>
       </Router>
