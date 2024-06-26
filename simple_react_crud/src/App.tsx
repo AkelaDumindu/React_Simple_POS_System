@@ -6,6 +6,7 @@ import Order from "./components/Order";
 import Product from "./components/Product";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Calculator from "./components/Calculator";
 
 function App() {
  
@@ -38,6 +39,9 @@ function App() {
         <li className="nav-item">
           <Link className="nav-link" aria-disabled="true" to={"/Login"}>Login</Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" aria-disabled="true" to={"/calc"}>Calculator</Link>
+        </li>
       </ul>
     </div>
   </div>
@@ -52,6 +56,7 @@ function App() {
             <Route path="/Product" element={<Product/>} />
             <Route path="/Login" element={<Login/>} />
             <Route path="/Signup" element={<Signup/>} />
+            <Route path="/calc" element={<Calculator/>} />
           </Routes>
         </div>
       </Router>
