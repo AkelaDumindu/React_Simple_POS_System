@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {storage} from "../config/firebase";
-import axios from "axios";
+import AxiosInstance  from '../config/axiosInstance';
 import { Modal } from "react-bootstrap";
 
 interface Product{
@@ -52,7 +52,7 @@ const Product:React.FC=()=> {
         
         
             try {
-                const response = await axios.put('http://localhost:3000/api/v1/products/update-product/'+selectedId, {
+                const response = await AxiosInstance.put('/products/update-product/'+selectedId, {
                     name:updateName, description:updateDescription, qtyOnHand:updateQtyOnHand, unitPrice:updateUnitPrice
                 });
         
@@ -73,22 +73,22 @@ const Product:React.FC=()=> {
     
     
         const findAllProducts = async ()=>{
-            const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product');
-            // const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/products/find-all-product');
+            // const response = await axios.get('/products/find-all-product?searchText=&page=1&size=10');
             setProducts(response.data.data);
             
             
         }
     
         const deleteProduct = async (id: string)=>{
-            const response = await axios.delete('http://localhost:3000/api/v1/products/delete-by-id/'+id);
+            const response = await AxiosInstance.delete('/products/delete-by-id/'+id);
     
             findAllProducts();
             
         }
 
         const loadModal = async(id:string)=>{
-            const product = await axios.get('http://localhost:3000/api/v1/products/find-product/'+id);
+            const product = await AxiosInstance.get('/products/find-product/'+id);
             setSelectedId(product.data._id);
             
             setUpdateName(product.data.name);
@@ -115,7 +115,7 @@ const Product:React.FC=()=> {
         
         
             try {
-                const response = await axios.post('http://localhost:3000/api/v1/products/save-product', {
+                const response = await AxiosInstance.post('/products/save-product', {
                     name, description, qtyOnHand, unitPrice, image: imageUrl
                 });
         

@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import AxiosInstance  from '../config/axiosInstance';
 import { Link } from "react-router-dom";
 
 const Login:React.FC= ()=> {
@@ -10,7 +10,7 @@ const Login:React.FC= ()=> {
 
     const signup = async ()=>{
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/users/register', {
+            const response = await AxiosInstance.post('/users/register', {
                 fullName, email, password
             });
     

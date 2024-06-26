@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import AxiosInstance  from '../config/axiosInstance';
 import Customer from "./Customer";
 import Product from "./Product";
 
@@ -36,30 +36,30 @@ const Order:React.FC=()=> {
     });
 
     const findAllCustomers = async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer');
-        // const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/customers/find-all-customer');
+        // const response = await axios.get('/customers/find-all-customer?searchText=&page=1&size=10');
         setCustomers(response.data.data);
         
         
     }
 
     const findAllProducts = async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product');
-        // const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/products/find-all-product');
+        // const response = await axios.get('/products/find-all-product?searchText=&page=1&size=10');
         setProducts(response.data.data);
         
         
     }
 
     const getCustomerId = async (id:string)=>{
-        const customer = await axios.get('http://localhost:3000/api/v1/customers/find-customer/'+id);
+        const customer = await AxiosInstance.get('/customers/find-customer/'+id);
         setSelectedCustomers(customer.data.data);
         setAddress(customer.data.data.address);
         setSalary(parseFloat(customer.data.data.salary));
     }
 
     const getProductId = async (id:string)=>{
-        const product = await axios.get('http://localhost:3000/api/v1/products/find-product/'+id);
+        const product = await AxiosInstance.get('/products/find-product/'+id);
         
         setselectedProducts(product.data);
         setName(product.data.name);
@@ -76,7 +76,7 @@ const Order:React.FC=()=> {
     const placeOredr = async ()=>{
         
             
-                const response = await axios.post('http://localhost:3000/api/v1/orders/save-order', {
+                const response = await AxiosInstance.post('/orders/save-order', {
                     date:new Date(),
                     customerDetails:selectedCustomers,
                     totalCost:130,

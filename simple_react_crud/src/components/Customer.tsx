@@ -1,6 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {Modal} from "react-bootstrap"; 
+import {Modal} from "react-bootstrap";
+import AxiosInstance  from '../config/axiosInstance'; 
 
 interface Customer {
 
@@ -36,7 +36,7 @@ const Customer:React.FC= ()=> {
         
         
         try {
-            const response = await axios.put('http://localhost:3000/api/v1/customers/update-customer/'+selectedId, {
+            const response = await AxiosInstance.put('/customers/update-customer/'+selectedId, {
                 name:updateName, address:updateAddress, salary:updateSalary
             });
     
@@ -57,22 +57,22 @@ const Customer:React.FC= ()=> {
 
 
     const findAllCustomers = async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer');
-        // const response = await axios.get('http://localhost:3000/api/v1/customers/find-all-customer?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/customers/find-all-customer');
+        // const response = await axios.get('/customers/find-all-customer?searchText=&page=1&size=10');
         setCustomers(response.data.data);
         
         
     }
 
     const deleteCustomer = async (id: string)=>{
-        const response = await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+        const response = await AxiosInstance.delete('/customers/delete-by-id/'+id);
 
         findAllCustomers();
         
     }
 
     const loadModal = async(id:string)=>{
-        const customer = await axios.get('http://localhost:3000/api/v1/customers/find-customer/'+id);
+        const customer = await AxiosInstance.get('/customers/find-customer/'+id);
         setSelectedId(customer.data.data._id);
         setUpdateName(customer.data.data.name);
         setUpdateAddress(customer.data.data.address);
@@ -85,7 +85,7 @@ const Customer:React.FC= ()=> {
     const saveCustomer = async ()=>{
         
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/customers/save-customer', {
+            const response = await AxiosInstance.post('/customers/save-customer', {
                 name, address, salary
             });
     

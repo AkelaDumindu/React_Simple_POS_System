@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DefaultCard from './card/Defaultcard';
 import DefaultChart from './card/DefaultChart';
 import MinQtyCard from './card/MinQtyCard';
-import axios from 'axios';
+import AxiosInstance  from '../config/axiosInstance';
 import Product from './Product';
 
 // Define the Product interface
@@ -22,25 +22,25 @@ const Home: React.FC = () => {
 
     const findAllProducts = async () => {
         
-            const response = await axios.get('http://localhost:3000/api/v1/products/find-all-min');
-            // const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product?searchText=&page=1&size=10');
+            const response = await AxiosInstance.get('/products/find-all-min');
+            // const response = await axios.get('/products/find-all-product?searchText=&page=1&size=10');
             setProducts(response.data);
        
     }
 
     const findAllCount = async () => {
         
-        const responseProduct = await axios.get('http://localhost:3000/api/v1/products/find-all-count');
-        // const response = await axios.get('http://localhost:3000/api/v1/products/find-all-product?searchText=&page=1&size=10');
+        const responseProduct = await AxiosInstance.get('/products/find-all-count');
+        // const response = await axios.get('/products/find-all-product?searchText=&page=1&size=10');
         setProductCount(responseProduct.data);
 
-        const responseCustomer = await axios.get('http://localhost:3000/api/v1/customers/find-all-count');
+        const responseCustomer = await AxiosInstance.get('/customers/find-all-count');
         setCustomerCount(responseCustomer.data);
 
-        const responseOrder = await axios.get('http://localhost:3000/api/v1/orders/find-all-count');
+        const responseOrder = await AxiosInstance.get('/orders/find-all-count');
         setOrderCount(responseOrder.data);
 
-        const responseIncome = await axios.get('http://localhost:3000/api/v1/orders/find-all-income');
+        const responseIncome = await AxiosInstance.get('/orders/find-all-income');
         setIncome(responseIncome.data.totalCostSum);
    
 }
