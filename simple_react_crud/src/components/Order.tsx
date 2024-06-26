@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AxiosInstance  from '../config/axiosInstance';
 import Customer from "./Customer";
-import Product from "./Product";
+import Product from "./Product.1";
 
 interface Cart{
     _id:string | undefined,

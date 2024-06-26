@@ -3,7 +3,7 @@ import DefaultCard from './card/Defaultcard';
 import DefaultChart from './card/DefaultChart';
 import MinQtyCard from './card/MinQtyCard';
 import AxiosInstance  from '../config/axiosInstance';
-import Product from './Product';
+import Product from "./Product.1";
 
 // Define the Product interface
 
